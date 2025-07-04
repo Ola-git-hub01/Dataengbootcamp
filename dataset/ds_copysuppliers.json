@@ -1,0 +1,23 @@
+{
+	"name": "ds_copysuppliers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linkservice_azureblpbadfpjt",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "supplierscsv.csv",
+				"container": "suppliers"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
