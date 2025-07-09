@@ -313,6 +313,8 @@
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
+									"wildcardFolderPath": "Azure-Data-Factory-by-Example-Second-Edition-main/SampleData/SweetTreats",
+									"wildcardFileName": "*",
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -323,7 +325,6 @@
 								"type": "AzureSqlSink",
 								"writeBehavior": "insert",
 								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
 								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
@@ -907,7 +908,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "sales"
+					"table": "Sales_LOAD"
 				}
 			},
 			"dependsOn": [
