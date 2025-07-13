@@ -1478,6 +1478,172 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage2')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_jollyGood')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Excel_jollygood",
+								"type": "DatasetReference"
+							},
+							"name": "Jollygoodexceldata"
+						},
+						{
+							"linkedService": {
+								"referenceName": "AzureDataLakeStorage2",
+								"type": "LinkedServiceReference"
+							},
+							"name": "ExchanfeRatedataJollyGood"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_sql",
+								"type": "DatasetReference"
+							},
+							"name": "sinkToSalesLoadTable"
+						}
+					],
+					"transformations": [
+						{
+							"name": "filterOutMonthTotal"
+						},
+						{
+							"name": "filterCurrenctToUSD"
+						},
+						{
+							"name": "LookupExchangeRate"
+						},
+						{
+							"name": "derivedColumnForTotalsales"
+						},
+						{
+							"name": "selectSinkColumns"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Period as date,",
+						"          Product as string,",
+						"          {Unit Price} as double,",
+						"          Currency as string,",
+						"          {Units Sold} as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> Jollygoodexceldata",
+						"source(output(",
+						"          FromCurrency as string,",
+						"          ToCurrency as string,",
+						"          Date as date,",
+						"          ExchangeRate as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'excel',",
+						"     fileSystem: 'staging',",
+						"     folderPath: 'Azure-Data-Factory-by-Example-Second-Edition-main/SampleData',",
+						"     fileName: 'ExchangeRates.xlsx',",
+						"     sheetName: 'Sheet1',",
+						"     firstRowAsHeader: true) ~> ExchanfeRatedataJollyGood",
+						"Jollygoodexceldata filter(Product!='Month Total') ~> filterOutMonthTotal",
+						"ExchanfeRatedataJollyGood filter(ToCurrency=='USD') ~> filterCurrenctToUSD",
+						"filterOutMonthTotal, filterCurrenctToUSD lookup(Period == Date",
+						"     && Currency == FromCurrency,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupExchangeRate",
+						"LookupExchangeRate derive(SalesValueUSD = round({Unit Price}*{Units Sold}*ExchangeRate,2)) ~> derivedColumnForTotalsales",
+						"derivedColumnForTotalsales select(mapColumn(",
+						"          Product,",
+						"          {Unit Price},",
+						"          {Units Sold},",
+						"          Date,",
+						"          SalesValueUSD",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> selectSinkColumns",
+						"selectSinkColumns sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Product,",
+						"          {Units Sold},",
+						"          SalesMonth = Date,",
+						"          SalesValueUSD",
+						"     )) ~> sinkToSalesLoadTable"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Excel_jollygood')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage2')]",
+				"[concat(variables('factoryId'), '/datasets/ds_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Excel_jollygood')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "SALES",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Sales Apr-Sep 2020.xlsx",
+						"folderPath": "Azure-Data-Factory-by-Example-Second-Edition-main/SampleData/JollyGood",
+						"fileSystem": "staging"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "Period",
+						"type": "String"
+					},
+					{
+						"name": "Product",
+						"type": "String"
+					},
+					{
+						"name": "Unit Price",
+						"type": "String"
+					},
+					{
+						"name": "Currency",
+						"type": "String"
+					},
+					{
+						"name": "Units Sold",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage2')]"
+			]
 		}
 	]
 }
