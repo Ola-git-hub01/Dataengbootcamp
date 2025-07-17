@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ls_sqldb'"
 		},
+		"ls_classwork_csv_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_classwork_csv'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://stodatalakeclasswork.dfs.core.windows.net/"
@@ -66,6 +70,14 @@
 		"ls_sqldb_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "adminuser01"
+		},
+		"ls_classwork_csv_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stagroupproject100.dfs.core.windows.net/"
+		},
+		"trigger_classwork_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/716b36f2-efe5-451f-ac1e-ced4bfcc4690/resourceGroups/rg-dataengrbootcamp1/providers/Microsoft.Storage/storageAccounts/stagroupproject100"
 		}
 	},
 	"variables": {
@@ -1787,6 +1799,182 @@
 				"[concat(variables('factoryId'), '/datasets/Excel_jollygood')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage2')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable_jollyGood')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ppl_classwork_csv')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*.csv",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "MergeFiles"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Ds_classwork_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Parquet_classwork",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Ds_classwork_csv')]",
+				"[concat(variables('factoryId'), '/datasets/Parquet_classwork')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_classwork_csv')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ls_classwork_csv_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_classwork_csv_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Ds_classwork_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_classwork_csv",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "landing"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_classwork_csv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet_classwork')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_classwork_csv",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "bronze"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_classwork_csv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger_classwork')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "ppl_classwork_csv",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/landing/blobs/",
+					"blobPathEndsWith": "20.csv",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('trigger_classwork_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/ppl_classwork_csv')]"
 			]
 		}
 	]

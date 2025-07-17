@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ls_sqldb'"
 		},
+		"ls_classwork_csv_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_classwork_csv'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://stodatalakeclasswork.dfs.core.windows.net/"
@@ -66,6 +70,14 @@
 		"ls_sqldb_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "adminuser01"
+		},
+		"ls_classwork_csv_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stagroupproject100.dfs.core.windows.net/"
+		},
+		"trigger_classwork_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/716b36f2-efe5-451f-ac1e-ced4bfcc4690/resourceGroups/rg-dataengrbootcamp1/providers/Microsoft.Storage/storageAccounts/stagroupproject100"
 		},
 		"containerUri": {
 			"type": "string",
@@ -112,6 +124,9 @@
 					"ls_sqldb_password": {
 						"value": "[parameters('ls_sqldb_password')]"
 					},
+					"ls_classwork_csv_accountKey": {
+						"value": "[parameters('ls_classwork_csv_accountKey')]"
+					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
@@ -138,6 +153,9 @@
 					},
 					"ls_sqldb_properties_typeProperties_userName": {
 						"value": "[parameters('ls_sqldb_properties_typeProperties_userName')]"
+					},
+					"ls_classwork_csv_properties_typeProperties_url": {
+						"value": "[parameters('ls_classwork_csv_properties_typeProperties_url')]"
 					}
 				}
 			},
@@ -161,6 +179,29 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'adfhivproject001_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "adfhivproject001_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"trigger_classwork_properties_typeProperties_scope": {
+						"value": "[parameters('trigger_classwork_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adfhivproject001_ArmTemplate_1')]"
 			]
 		}
 	]
