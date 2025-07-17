@@ -1,0 +1,17 @@
+{
+	"name": "trigger_jollygood_project_schedule",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 12,
+				"startTime": "2025-07-19T07:00:00",
+				"timeZone": "Central Standard Time"
+			}
+		}
+	}
+}
