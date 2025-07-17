@@ -1,0 +1,19 @@
+{
+	"name": "Parquet_classwork",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_classwork_csv",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "bronze"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
