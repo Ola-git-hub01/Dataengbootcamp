@@ -73,6 +73,52 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Transform_Sales_To_Silver",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Copy_classwork_csv",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Transform_Sales_To_Silver",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ppl_aggregate_sales_gold",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Transform_Sales_To_Silver",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ppl_aggregate_sales_gold",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"annotations": []
