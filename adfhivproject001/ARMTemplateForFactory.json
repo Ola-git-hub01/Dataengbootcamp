@@ -949,6 +949,54 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Transform_Sales_To_Silver",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy_classwork_csv",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Transform_Sales_To_Silver",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ppl_aggregate_sales_gold",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Transform_Sales_To_Silver",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ppl_aggregate_sales_gold",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
 					}
 				],
 				"policy": {
@@ -959,6 +1007,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Ds_classwork_csv')]",
 				"[concat(variables('factoryId'), '/datasets/Parquet_classwork')]",
+				"[concat(variables('factoryId'), '/pipelines/Transform_Sales_To_Silver')]",
+				"[concat(variables('factoryId'), '/pipelines/ppl_aggregate_sales_gold')]",
 				"[concat(variables('factoryId'), '/linkedServices/ls_classwork_csv')]"
 			]
 		},
