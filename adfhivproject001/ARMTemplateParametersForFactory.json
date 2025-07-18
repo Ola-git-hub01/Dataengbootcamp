@@ -20,10 +20,10 @@
 		"linkservice_azuredlsadfpjt_accountKey": {
 			"value": ""
 		},
-		"ls_sqldb_password": {
+		"ls_classwork_csv_accountKey": {
 			"value": ""
 		},
-		"ls_classwork_csv_accountKey": {
+		"ls_sqldb_password": {
 			"value": ""
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
@@ -44,6 +44,9 @@
 		"linkservice_azuredlsadfpjt_properties_typeProperties_url": {
 			"value": "https://staadlshivproject.dfs.core.windows.net/"
 		},
+		"ls_classwork_csv_properties_typeProperties_url": {
+			"value": "https://stagroupproject100.dfs.core.windows.net/"
+		},
 		"ls_sqldb_properties_typeProperties_server": {
 			"value": "projectservertk.database.windows.net"
 		},
@@ -52,9 +55,6 @@
 		},
 		"ls_sqldb_properties_typeProperties_userName": {
 			"value": "adminuser01"
-		},
-		"ls_classwork_csv_properties_typeProperties_url": {
-			"value": "https://stagroupproject100.dfs.core.windows.net/"
 		},
 		"trigger_classwork_properties_typeProperties_scope": {
 			"value": "/subscriptions/716b36f2-efe5-451f-ac1e-ced4bfcc4690/resourceGroups/rg-dataengrbootcamp1/providers/Microsoft.Storage/storageAccounts/stagroupproject100"

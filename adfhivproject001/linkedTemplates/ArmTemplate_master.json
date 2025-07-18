@@ -27,13 +27,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'linkservice_azuredlsadfpjt'"
 		},
-		"ls_sqldb_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'ls_sqldb'"
-		},
 		"ls_classwork_csv_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_classwork_csv'"
+		},
+		"ls_sqldb_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_sqldb'"
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
@@ -59,6 +59,10 @@
 			"type": "string",
 			"defaultValue": "https://staadlshivproject.dfs.core.windows.net/"
 		},
+		"ls_classwork_csv_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stagroupproject100.dfs.core.windows.net/"
+		},
 		"ls_sqldb_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "projectservertk.database.windows.net"
@@ -70,10 +74,6 @@
 		"ls_sqldb_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "adminuser01"
-		},
-		"ls_classwork_csv_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://stagroupproject100.dfs.core.windows.net/"
 		},
 		"trigger_classwork_properties_typeProperties_scope": {
 			"type": "string",
@@ -121,11 +121,11 @@
 					"linkservice_azuredlsadfpjt_accountKey": {
 						"value": "[parameters('linkservice_azuredlsadfpjt_accountKey')]"
 					},
-					"ls_sqldb_password": {
-						"value": "[parameters('ls_sqldb_password')]"
-					},
 					"ls_classwork_csv_accountKey": {
 						"value": "[parameters('ls_classwork_csv_accountKey')]"
+					},
+					"ls_sqldb_password": {
+						"value": "[parameters('ls_sqldb_password')]"
 					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
@@ -145,6 +145,9 @@
 					"linkservice_azuredlsadfpjt_properties_typeProperties_url": {
 						"value": "[parameters('linkservice_azuredlsadfpjt_properties_typeProperties_url')]"
 					},
+					"ls_classwork_csv_properties_typeProperties_url": {
+						"value": "[parameters('ls_classwork_csv_properties_typeProperties_url')]"
+					},
 					"ls_sqldb_properties_typeProperties_server": {
 						"value": "[parameters('ls_sqldb_properties_typeProperties_server')]"
 					},
@@ -153,9 +156,6 @@
 					},
 					"ls_sqldb_properties_typeProperties_userName": {
 						"value": "[parameters('ls_sqldb_properties_typeProperties_userName')]"
-					},
-					"ls_classwork_csv_properties_typeProperties_url": {
-						"value": "[parameters('ls_classwork_csv_properties_typeProperties_url')]"
 					}
 				}
 			},
