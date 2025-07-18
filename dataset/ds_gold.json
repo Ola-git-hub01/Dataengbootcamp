@@ -1,0 +1,16 @@
+{
+	"name": "ds_gold",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_gold_synapse",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Sales_Gold"
+		}
+	}
+}

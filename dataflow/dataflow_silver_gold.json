@@ -1,0 +1,63 @@
+{
+	"name": "dataflow_silver_gold",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_parquet",
+						"type": "DatasetReference"
+					},
+					"name": "silvertogold"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_gold",
+						"type": "DatasetReference"
+					},
+					"name": "azuresynapse"
+				}
+			],
+			"transformations": [
+				{
+					"name": "TotalRevenuePerCustomerID"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          SalesMonth as string,",
+				"          Retailer as string,",
+				"          Product as string,",
+				"          SalesValueUSD as double,",
+				"          UnitsSold as integer,",
+				"          Revenue as double",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> silvertogold",
+				"silvertogold aggregate(groupBy(Product),",
+				"     TotalRevenue = sum(Revenue)) ~> TotalRevenuePerCustomerID",
+				"TotalRevenuePerCustomerID sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Product,",
+				"          TotalRevenue",
+				"     )) ~> azuresynapse"
+			]
+		}
+	}
+}
