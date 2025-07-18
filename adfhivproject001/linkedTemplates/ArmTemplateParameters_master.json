@@ -56,9 +56,6 @@
 		"ls_sqldb_properties_typeProperties_userName": {
 			"value": "adminuser01"
 		},
-		"trigger_classwork_properties_typeProperties_scope": {
-			"value": "/subscriptions/716b36f2-efe5-451f-ac1e-ced4bfcc4690/resourceGroups/rg-dataengrbootcamp1/providers/Microsoft.Storage/storageAccounts/stagroupproject100"
-		},
 		"containerUri": {
 			"value": ""
 		},

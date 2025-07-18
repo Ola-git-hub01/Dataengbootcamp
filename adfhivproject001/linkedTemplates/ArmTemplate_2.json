@@ -6,45 +6,12 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "adfhivproject001"
-		},
-		"trigger_classwork_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/716b36f2-efe5-451f-ac1e-ced4bfcc4690/resourceGroups/rg-dataengrbootcamp1/providers/Microsoft.Storage/storageAccounts/stagroupproject100"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/trigger_classwork')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "ppl_classwork_csv",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/landing/blobs/",
-					"blobPathEndsWith": "20.csv",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('trigger_classwork_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/trigger_jollygood_project_schedule')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
