@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_classwork_csv'"
 		},
+		"ls_gold_synapse_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_gold_synapse'"
+		},
 		"ls_sqldb_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ls_sqldb'"
@@ -123,6 +127,9 @@
 					},
 					"ls_classwork_csv_accountKey": {
 						"value": "[parameters('ls_classwork_csv_accountKey')]"
+					},
+					"ls_gold_synapse_connectionString": {
+						"value": "[parameters('ls_gold_synapse_connectionString')]"
 					},
 					"ls_sqldb_password": {
 						"value": "[parameters('ls_sqldb_password')]"

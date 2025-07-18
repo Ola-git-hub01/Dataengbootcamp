@@ -23,6 +23,9 @@
 		"ls_classwork_csv_accountKey": {
 			"value": ""
 		},
+		"ls_gold_synapse_connectionString": {
+			"value": ""
+		},
 		"ls_sqldb_password": {
 			"value": ""
 		},
