@@ -1,0 +1,56 @@
+{
+	"name": "dataflow_classwork",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Parquet_classwork",
+						"type": "DatasetReference"
+					},
+					"name": "bronzetosilver",
+					"description": "sales_silve"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_parquet",
+						"type": "DatasetReference"
+					},
+					"name": "ExportdatatoParquet"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumnRevenue"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          SalesMonth as string,",
+				"          Retailer as string,",
+				"          Product as string,",
+				"          SalesValueUSD as double,",
+				"          UnitsSold as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> bronzetosilver",
+				"bronzetosilver derive(Revenue = SalesValueUSD*UnitsSold) ~> derivedColumnRevenue",
+				"derivedColumnRevenue sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     partitionFileNames:['Cleaned_Desert4all.parquet'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> ExportdatatoParquet"
+			]
+		}
+	}
+}
