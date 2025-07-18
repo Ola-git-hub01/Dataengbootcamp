@@ -74,6 +74,10 @@
 		"ls_sqldb_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "adminuser01"
+		},
+		"trigger_classwork_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/716b36f2-efe5-451f-ac1e-ced4bfcc4690/resourceGroups/rg-dataengrbootcamp1/providers/Microsoft.Storage/storageAccounts/stagroupproject100"
 		}
 	},
 	"variables": {
@@ -1956,6 +1960,37 @@
 				"[concat(variables('factoryId'), '/datasets/Excel_jollygood')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage2')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable_jollyGood')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger_classwork')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "ppl_classwork_csv",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/landing/blobs/",
+					"blobPathEndsWith": "20.csv",
+					"ignoreEmptyBlobs": false,
+					"scope": "[parameters('trigger_classwork_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/ppl_classwork_csv')]"
 			]
 		}
 	]
