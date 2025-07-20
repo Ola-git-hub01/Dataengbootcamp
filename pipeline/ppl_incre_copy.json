@@ -51,7 +51,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Metadataforincrecopywithparameter",
+							"name": "Metadatawithparameter",
 							"type": "GetMetadata",
 							"dependsOn": [],
 							"policy": {
@@ -85,11 +85,81 @@
 									"type": "DelimitedTextReadSettings"
 								}
 							}
+						},
+						{
+							"name": "If Conditiontrueorfalse",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "Metadatawithparameter",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(activity('Metadatawithparameter').output.lastModified,variables('prevfile'))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Set variable1",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "currentfile",
+											"value": {
+												"value": "@activity('Metadatawithparameter').output.itemName",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "Set variable2",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Set variable1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "prevfile",
+											"value": {
+												"value": "@activity('Metadatawithparameter').output.lastModified",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
 						}
 					]
 				}
 			}
 		],
+		"variables": {
+			"currentfile": {
+				"type": "String"
+			},
+			"prevfile": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "Incremental copy task"
 		},
