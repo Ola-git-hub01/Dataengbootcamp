@@ -1,0 +1,57 @@
+{
+	"name": "ds_cp_classworkgrp",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().name",
+					"type": "Expression"
+				},
+				"folderPath": "Azure-Data-Factory-by-Example-Second-Edition-main/SampleData/CandyShack",
+				"fileSystem": "staging"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Retailer",
+				"type": "String"
+			},
+			{
+				"name": "SkuCode",
+				"type": "String"
+			},
+			{
+				"name": "Product",
+				"type": "String"
+			},
+			{
+				"name": "SalesMonth",
+				"type": "String"
+			},
+			{
+				"name": "SalesValue",
+				"type": "String"
+			},
+			{
+				"name": "UnitsSold",
+				"type": "String"
+			}
+		]
+	}
+}
