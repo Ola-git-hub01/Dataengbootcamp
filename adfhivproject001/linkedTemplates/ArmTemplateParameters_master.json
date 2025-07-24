@@ -62,6 +62,9 @@
 		"trigger_classwork_properties_typeProperties_scope": {
 			"value": "/subscriptions/716b36f2-efe5-451f-ac1e-ced4bfcc4690/resourceGroups/rg-dataengrbootcamp1/providers/Microsoft.Storage/storageAccounts/stagroupproject100"
 		},
+		"triggerclasswrk_properties_typeProperties_scope": {
+			"value": "/subscriptions/716b36f2-efe5-451f-ac1e-ced4bfcc4690/resourceGroups/rg-dataengrbootcamp1/providers/Microsoft.Storage/storageAccounts/stodatalakeclasswork"
+		},
 		"containerUri": {
 			"value": ""
 		},
