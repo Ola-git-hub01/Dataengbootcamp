@@ -87,6 +87,14 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/716b36f2-efe5-451f-ac1e-ced4bfcc4690/resourceGroups/rg-dataengrbootcamp1/providers/Microsoft.Storage/storageAccounts/stodatalakeclasswork"
 		},
+		"triggertest_properties_pipeline_parameters_windowStart": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowstarttime"
+		},
+		"triggertest_properties_pipeline_parameters_windowEnd": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndtime"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -208,6 +216,12 @@
 					},
 					"triggerclasswrk_properties_typeProperties_scope": {
 						"value": "[parameters('triggerclasswrk_properties_typeProperties_scope')]"
+					},
+					"triggertest_properties_pipeline_parameters_windowStart": {
+						"value": "[parameters('triggertest_properties_pipeline_parameters_windowStart')]"
+					},
+					"triggertest_properties_pipeline_parameters_windowEnd": {
+						"value": "[parameters('triggertest_properties_pipeline_parameters_windowEnd')]"
 					}
 				}
 			},

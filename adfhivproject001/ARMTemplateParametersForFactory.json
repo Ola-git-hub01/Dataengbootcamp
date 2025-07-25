@@ -64,6 +64,12 @@
 		},
 		"triggerclasswrk_properties_typeProperties_scope": {
 			"value": "/subscriptions/716b36f2-efe5-451f-ac1e-ced4bfcc4690/resourceGroups/rg-dataengrbootcamp1/providers/Microsoft.Storage/storageAccounts/stodatalakeclasswork"
+		},
+		"triggertest_properties_pipeline_parameters_windowStart": {
+			"value": "@trigger().outputs.windowstarttime"
+		},
+		"triggertest_properties_pipeline_parameters_windowEnd": {
+			"value": "@trigger().outputs.windowEndtime"
 		}
 	}
 }
