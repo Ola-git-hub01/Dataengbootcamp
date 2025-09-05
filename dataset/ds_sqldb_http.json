@@ -1,0 +1,16 @@
+{
+	"name": "ds_sqldb_http",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sqldb_http",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "apiusers"
+		}
+	}
+}
