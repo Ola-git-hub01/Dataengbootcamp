@@ -50,6 +50,9 @@
 		"ls_classwork_csv_properties_typeProperties_url": {
 			"value": "https://stagroupproject100.dfs.core.windows.net/"
 		},
+		"ls_httpfile_properties_typeProperties_url": {
+			"value": "https://reqres.in/api/users"
+		},
 		"ls_sqldb_properties_typeProperties_server": {
 			"value": "projectservertk.database.windows.net"
 		},

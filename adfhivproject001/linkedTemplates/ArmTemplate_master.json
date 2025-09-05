@@ -67,6 +67,10 @@
 			"type": "string",
 			"defaultValue": "https://stagroupproject100.dfs.core.windows.net/"
 		},
+		"ls_httpfile_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://reqres.in/api/users"
+		},
 		"ls_sqldb_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "projectservertk.database.windows.net"
@@ -167,6 +171,9 @@
 					"ls_classwork_csv_properties_typeProperties_url": {
 						"value": "[parameters('ls_classwork_csv_properties_typeProperties_url')]"
 					},
+					"ls_httpfile_properties_typeProperties_url": {
+						"value": "[parameters('ls_httpfile_properties_typeProperties_url')]"
+					},
 					"ls_sqldb_properties_typeProperties_server": {
 						"value": "[parameters('ls_sqldb_properties_typeProperties_server')]"
 					},
@@ -213,15 +220,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"triggerclasswrk_properties_typeProperties_scope": {
-						"value": "[parameters('triggerclasswrk_properties_typeProperties_scope')]"
-					},
-					"triggertest_properties_pipeline_parameters_windowStart": {
-						"value": "[parameters('triggertest_properties_pipeline_parameters_windowStart')]"
-					},
-					"triggertest_properties_pipeline_parameters_windowEnd": {
-						"value": "[parameters('triggertest_properties_pipeline_parameters_windowEnd')]"
 					}
 				}
 			},
@@ -242,6 +240,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"triggerclasswrk_properties_typeProperties_scope": {
+						"value": "[parameters('triggerclasswrk_properties_typeProperties_scope')]"
+					},
+					"triggertest_properties_pipeline_parameters_windowStart": {
+						"value": "[parameters('triggertest_properties_pipeline_parameters_windowStart')]"
+					},
+					"triggertest_properties_pipeline_parameters_windowEnd": {
+						"value": "[parameters('triggertest_properties_pipeline_parameters_windowEnd')]"
 					},
 					"trigger_classwork_properties_typeProperties_scope": {
 						"value": "[parameters('trigger_classwork_properties_typeProperties_scope')]"
